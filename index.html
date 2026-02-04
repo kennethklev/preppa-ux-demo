@@ -1,0 +1,2670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preppa - Complete UX Flow</title>
+    <style>
+        /* CANONICAL COLOR PALETTE - WARM ENTERPRISE v1.0 */
+        :root {
+            /* Base - Human Authority */
+            --warm-bone: #F4F1EC;
+            --surface-white: #FFFFFF;
+            --ink-charcoal: #1F1E1C;
+            --text-secondary: #6B6259;
+            --text-tertiary: #A39687;
+            --border-color: #E8E3DB;
+            
+            /* Structure - Intellectual Weight */
+            --deep-navy: #2B3440;
+            
+            /* Growth - Behavioral Stability */
+            --heritage-forest: #2F4A3C;
+            
+            /* Insight - The Human Voice (5% rule - use sparingly) */
+            --aged-amber: #C47A3D;
+            --aged-amber-hover: #A65F2E;
+            --aged-amber-light: #E8D5C4;
+            --aged-amber-ultra-light: #F8F3EE;
+            
+            /* Legacy aliases (for backwards compatibility) */
+            --cognac-primary: #C47A3D;
+            --cognac-hover: #A65F2E;
+            --cognac-light: #E8D5C4;
+            --cognac-ultra-light: #F8F3EE;
+            
+            /* UI States */
+            --success-green: #2F4A3C;
+            --info-teal: #5A7A6E;
+            --locked-gray: #78716C;
+        }
+            --locked-red: #C7503F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #FAF8F5 0%, #F5F1EA 100%);
+            color: var(--ink-charcoal);
+            line-height: 1.6;
+        }
+        
+        /* CONTAINER */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        /* HEADER */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-family: 'Georgia', serif;
+            font-size: 32px;
+            color: var(--deep-navy);
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        /* SCREENS */
+        .screen {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* EXPLORE HUB - CONVERSATIONAL */
+        .explore-conversational {
+            background: var(--surface-white);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(194, 121, 77, 0.08), 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 200px);
+            max-height: 800px;
+            border: 1px solid rgba(217, 119, 6, 0.1);
+        }
+        
+        .explore-welcome {
+            text-align: center;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+        
+        .explore-welcome-title {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            color: var(--deep-navy);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+        
+        .explore-welcome-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        .explore-conversation {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 0;
+            margin-bottom: 16px;
+            max-height: 50vh;
+        }
+        
+        .explore-message {
+            margin-bottom: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .explore-message.user {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .explore-message.assistant {
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .explore-message-content {
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+        
+        .explore-message.user .explore-message-content {
+            background: var(--cognac-ultra-light);
+            color: var(--ink-charcoal);
+            border: 1px solid var(--cognac-light);
+        }
+        
+        .explore-message.assistant .explore-message-content {
+            background: linear-gradient(135deg, #FFF9F0 0%, #FFF5E8 100%);
+            color: var(--ink-charcoal);
+            border: 1px solid rgba(217, 119, 6, 0.12);
+        }
+        
+        .explore-input-container {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            background: var(--surface-white);
+            transition: all 0.2s ease;
+        }
+        
+        .explore-input-container:focus-within {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .explore-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            line-height: 1.5;
+            resize: none;
+            background: transparent;
+            color: var(--ink-charcoal);
+        }
+        
+        .explore-input::placeholder {
+            color: var(--text-tertiary);
+        }
+        
+        .explore-input-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        
+        .explore-send-btn {
+            background: var(--cognac-primary);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .explore-send-btn:hover {
+            background: var(--cognac-hover);
+        }
+        
+        .explore-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .explore-quick-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .quick-action-btn {
+            background: var(--surface-white);
+            border: 3px solid var(--aged-amber);
+            padding: 14px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+            box-shadow: 0 2px 8px rgba(196, 122, 61, 0.15);
+        }
+        
+        .quick-action-btn:hover:not(:disabled) {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(196, 122, 61, 0.25);
+        }
+        
+        .quick-action-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: var(--border-color);
+            box-shadow: none;
+        }
+        
+        .quick-action-label {
+            font-weight: 500;
+        }
+        
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 16px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .explore-conversational {
+                padding: 20px;
+                height: calc(100vh - 160px);
+            }
+            
+            .explore-welcome-title {
+                font-size: 20px;
+            }
+            
+            .explore-welcome-subtitle {
+                font-size: 14px;
+            }
+            
+            .explore-message-content {
+                max-width: 90%;
+                font-size: 15px;
+            }
+            
+            .explore-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .explore-quick-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .quick-action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .form-container {
+                padding: 24px 20px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+            
+            .type-buttons,
+            .return-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .relationship-buttons {
+                gap: 8px;
+            }
+            
+            .relationship-btn {
+                padding: 14px 16px;
+            }
+        }
+        
+        /* PRACTICE TYPE SELECTOR */
+        .practice-type-selector {
+            background: var(--surface-white);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .section-title {
+            font-family: 'Georgia', serif;
+            font-size: 24px;
+            color: var(--deep-navy);
+            margin-bottom: 24px;
+        }
+        
+        .type-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .type-button {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .type-button:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .type-button-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+            margin-bottom: 8px;
+        }
+        
+        .type-button-desc {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        
+        .type-button-time {
+            color: var(--text-tertiary);
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .locked-type-button {
+            background: var(--warm-bone);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px 24px;
+            cursor: not-allowed;
+            text-align: center;
+            opacity: 0.6;
+            position: relative;
+        }
+        
+        .locked-type-button:hover {
+            background: var(--warm-bone);
+            border-color: var(--border-color);
+        }
+        
+        .coming-soon-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--locked-gray);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* FORM CONTAINER */
+        .form-container {
+            background: var(--surface-white);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .step-indicator {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: var(--cognac-light);
+            color: var(--cognac-hover);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .char-count {
+            text-align: right;
+            color: var(--text-tertiary);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        
+        /* RADIO GROUP */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .radio-option {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .radio-option:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .radio-option.selected {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .radio-option-clean {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .radio-option-clean:hover {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            transform: translateY(-2px);
+        }
+        
+        .radio-option-clean.selected {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            border-width: 3px;
+        }
+        
+        /* CATEGORY CONTAINERS (hierarchical structure) */
+        .category-container {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .category-header {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--deep-navy);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .category-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .sub-option {
+            background: var(--warm-bone);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .sub-option:hover {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            transform: translateX(4px);
+        }
+        
+        .sub-option.selected {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            border-width: 3px;
+        }
+        
+        .sub-option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+            margin-bottom: 4px;
+        }
+        
+        .sub-option-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        
+        .radio-indicator {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .radio-option.selected .radio-indicator {
+            border-color: var(--cognac-primary);
+        }
+        
+        .radio-option.selected .radio-indicator::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--cognac-primary);
+            border-radius: 50%;
+        }
+        
+        .radio-label {
+            font-weight: 500;
+            color: var(--ink-charcoal);
+        }
+        
+        /* THEME BOXES */
+        .theme-boxes {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .theme-box {
+            background: var(--surface-white);
+            border: 3px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .theme-box:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+            transform: translateY(-2px);
+        }
+        
+        .theme-box.selected {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+            border-width: 3px;
+        }
+        
+        .theme-box-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+            margin-bottom: 8px;
+        }
+        
+        .theme-box-items {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* ARCHETYPE CARDS (FIFA-style) */
+        .archetype-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .archetype-card {
+            background: var(--surface-white);
+            border: 3px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .archetype-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(217, 119, 6, 0.2);
+        }
+        
+        .archetype-card.selected {
+            border-color: var(--cognac-primary);
+            border-width: 4px;
+        }
+        
+        .archetype-card-header {
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .archetype-card-header.alex {
+            background: linear-gradient(135deg, #9E7A6A 0%, #7D6255 100%);
+        }
+        
+        .archetype-card-header.sam {
+            background: linear-gradient(135deg, #7A9B88 0%, #5D7A6B 100%);
+        }
+        
+        .archetype-card-header.joe {
+            background: linear-gradient(135deg, #6B8E8E 0%, #517272 100%);
+        }
+        
+        .archetype-avatar-header {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--warm-bone);
+            flex-shrink: 0;
+        }
+        
+        .alex-avatar-header {
+            color: #9E7A6A;
+        }
+        
+        .sam-avatar-header {
+            color: #7A9B88;
+        }
+        
+        .joe-avatar-header {
+            color: #6B8E8E;
+        }
+        
+        .archetype-header-text {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .archetype-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .archetype-tagline {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .archetype-card-body {
+            padding: 16px;
+        }
+        
+        /* OLD AVATAR STYLES - NO LONGER USED */
+        .archetype-avatar {
+            display: none;
+        }
+        
+        .alex-avatar {
+            display: none;
+        }
+        
+        .sam-avatar {
+            display: none;
+        }
+        
+        .joe-avatar {
+            display: none;
+        }
+        
+        .archetype-quote {
+            font-size: 13px;
+            font-style: italic;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            min-height: 36px;
+        }
+        
+        .archetype-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 14px;
+            line-height: 1.5;
+            padding: 0 4px;
+        }
+        
+        .archetype-traits {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .trait-bar {
+            display: flex;
+            flex-direction: column;
+            cursor: help;
+        }
+            gap: 4px;
+        }
+        
+        .trait-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .trait-progress {
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .trait-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cognac-primary), var(--aged-amber));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        /* LOCKED CARDS */
+        .archetype-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .archetype-card.locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .locked-header {
+            background: linear-gradient(135deg, #78716C 0%, #57534E 100%) !important;
+            position: relative;
+        }
+        
+        .locked-icon {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 20px;
+        }
+        
+        .locked-avatar {
+            background: linear-gradient(135deg, #78716C 0%, #57534E 100%) !important;
+        }
+        
+        .locked-message {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 12px;
+            padding: 8px;
+            background: var(--warm-bone);
+            border-radius: 6px;
+        }
+        
+        /* QUICK NAME BUTTONS */
+        .quick-name-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            background: white;
+            color: var(--ink-charcoal);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        
+        .quick-name-btn:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        /* RELATIONSHIP BUTTONS */
+        .relationship-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .relationship-btn {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .relationship-btn:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .relationship-btn.selected {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+            border-width: 3px;
+        }
+        
+        .relationship-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .relationship-label {
+            font-weight: 500;
+            color: var(--ink-charcoal);
+            font-size: 16px;
+        }
+        
+        /* CHECKBOX GROUP */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-option {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .checkbox-option:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .checkbox-option.selected {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .checkbox-indicator {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .checkbox-option.selected .checkbox-indicator {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-primary);
+        }
+        
+        .checkbox-option.selected .checkbox-indicator::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        /* BUTTONS */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: var(--cognac-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--cognac-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--surface-white);
+            color: var(--ink-charcoal);
+            border: 2px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .btn-full {
+            width: 100%;
+        }
+        
+        .btn-locked {
+            background: var(--locked-gray);
+            color: white;
+            cursor: not-allowed;
+            opacity: 0.6;
+            border: none;
+        }
+        
+        .btn-locked:hover {
+            background: var(--locked-gray);
+            transform: none;
+        }
+        
+        /* RELATIONSHIP BOXES */
+        .relationship-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        
+        .relationship-box {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+        
+        .relationship-box:hover:not(.locked-box) {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            transform: translateY(-4px);
+        }
+        
+        .relationship-box.selected {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            border-width: 3px;
+        }
+        
+        .locked-box {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .relationship-box-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+        }
+        
+        /* PROFILE DEMO */
+        .demo-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--aged-amber);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .profile-demo-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .profile-section {
+            margin-bottom: 32px;
+            background: var(--warm-bone);
+            padding: 24px;
+            border-radius: 12px;
+        }
+        
+        .profile-section-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        
+        .profile-slider-container {
+            margin-top: 16px;
+        }
+        
+        .profile-slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .profile-slider {
+            position: relative;
+            height: 8px;
+            margin: 16px 0;
+        }
+        
+        .profile-slider-track {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, #E0DDD8 0%, var(--aged-amber) 100%);
+            border-radius: 4px;
+        }
+        
+        .profile-slider-position {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--aged-amber);
+            border: 3px solid white;
+            border-radius: 50%;
+            top: -4px;
+            transform: translateX(-50%);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        
+        .profile-strength-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .profile-strength-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .profile-strength-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+        }
+        
+        .profile-reliability-badge {
+            background: var(--heritage-forest);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .profile-reliability-broad {
+            background: var(--aged-amber);
+        }
+        
+        .profile-strength-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .profile-strength-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--heritage-forest), var(--aged-amber));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        /* PROCESSING */
+        .processing-screen {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--cognac-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .processing-text {
+            font-size: 18px;
+            color: var(--text-secondary);
+        }
+        
+        /* BACKGROUND INFO / SUMMARY */
+        .info-card {
+            background: var(--cognac-ultra-light);
+            border: 2px solid var(--cognac-light);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .info-card-title {
+            font-weight: 600;
+            color: var(--cognac-hover);
+            margin-bottom: 12px;
+        }
+        
+        .info-card-content {
+            color: var(--ink-charcoal);
+            line-height: 1.6;
+        }
+        
+        .key-elements {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .key-element {
+            background: white;
+            border-left: 4px solid;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        
+        .key-element.element-1 { border-left-color: #8B5CF6; }
+        .key-element.element-2 { border-left-color: #EC4899; }
+        .key-element.element-3 { border-left-color: #F59E0B; }
+        
+        .key-element-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .key-element-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* SIMULATION - MOCKUP DESIGN */
+        .simulation-mobile {
+            background: var(--surface-white);
+            border-radius: 20px;
+            padding: 60px 32px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sim-pulse-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(194, 121, 77, 0.3);
+            animation: pulse 3s ease-out infinite;
+        }
+        
+        .pulse-ring-1 {
+            animation-delay: 0s;
+        }
+        
+        .pulse-ring-2 {
+            animation-delay: 1s;
+        }
+        
+        .pulse-ring-3 {
+            animation-delay: 2s;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+        
+        .pulse-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #B8AFA5 0%, #9E9589 100%);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .sim-status-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+            margin-bottom: 8px;
+        }
+        
+        .sim-counterpart-info {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        
+        .sim-controls {
+            display: flex;
+            gap: 16px;
+            margin-top: 60px;
+            justify-content: center;
+        }
+        
+        .sim-control-btn {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 24px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+        }
+        
+        .sim-control-btn:hover {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+            transform: translateY(-2px);
+        }
+        
+        .sim-end-btn {
+            border-color: var(--cognac-primary);
+            background: var(--cognac-ultra-light);
+        }
+        
+        .sim-end-btn:hover {
+            background: var(--cognac-light);
+            transform: translateY(-2px);
+        }
+        
+        .control-icon {
+            font-size: 24px;
+        }
+        
+        .control-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+        }
+        
+        /* OLD SIMULATION STYLES REMOVED */
+        
+        /* FEEDBACK */
+        .feedback-container {
+            background: var(--surface-white);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        
+        .feedback-title {
+            font-family: 'Georgia', serif;
+            font-size: 32px;
+            color: var(--deep-navy);
+            margin-bottom: 24px;
+        }
+        
+        .feedback-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+        
+        .feedback-section {
+            margin-bottom: 20px;
+        }
+        
+        .feedback-overall .feedback-content {
+            background: var(--warm-bone);
+        }
+        
+        .feedback-green .feedback-content {
+            background: rgba(47, 74, 60, 0.08);
+            border-left: 4px solid var(--heritage-forest);
+        }
+        
+        .feedback-orange .feedback-content {
+            background: rgba(196, 122, 61, 0.08);
+            border-left: 4px solid var(--aged-amber);
+        }
+        
+        .feedback-green-2 .feedback-content {
+            background: rgba(47, 74, 60, 0.08);
+            border-left: 4px solid var(--heritage-forest);
+        }
+        
+        .feedback-element-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .feedback-element-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+        }
+        
+        .feedback-icon {
+            font-size: 18px;
+        }
+        
+        .feedback-success {
+            /* Green checkmark */
+        }
+        
+        .feedback-partial {
+            /* Orange square */
+        }
+        
+        .feedback-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        
+        .feedback-point {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 8px 0;
+        }
+        
+        .plus-icon {
+            color: #2E8B57;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .feedback-plus {
+            /* No longer needed - using plus-icon instead */
+        }
+        
+        .feedback-delta {
+            /* Development point with Δ */
+        }
+        
+        .try-saying-box {
+            background: rgba(46, 92, 138, 0.08);
+            border-left: 3px solid #2E5C8A;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+        
+        .try-saying-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2E5C8A;
+            margin-bottom: 6px;
+        }
+        
+        .try-saying-quote {
+            font-size: 15px;
+            font-style: italic;
+            color: var(--ink-charcoal);
+            line-height: 1.5;
+        }
+        
+        .feedback-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+            margin-bottom: 8px;
+        }
+        
+        .feedback-content {
+            padding: 16px;
+            border-radius: 8px;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        
+        .next-time-box {
+            background: rgba(46, 92, 138, 0.08);
+            border: 2px solid #2E5C8A;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .next-time-title {
+            font-weight: 700;
+            color: #2E5C8A;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .return-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .type-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .return-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Preppa</h1>
+            <p>Behavioral Infrastructure for Measurable Leadership Development</p>
+        </div>
+        
+        <!-- SCREEN 1: EXPLORE HUB (Conversational) -->
+        <div id="screen-explore" class="screen active">
+            <div class="explore-conversational">
+                <div class="explore-welcome">
+                    <h2 class="explore-welcome-title">Explore your leadership</h2>
+                    <p class="explore-welcome-subtitle">Chat with Preppa to discuss situations, get guidance, or start practicing</p>
+                </div>
+                
+                <!-- Conversation area -->
+                <div class="explore-conversation" id="explore-conversation">
+                    <!-- Messages will be added here -->
+                </div>
+                
+                <!-- Input area -->
+                <div class="explore-input-container">
+                    <textarea 
+                        class="explore-input" 
+                        id="explore-input" 
+                        placeholder="Describe a leadership situation, ask for guidance, or say what you'd like to practice..."
+                        rows="3"
+                    ></textarea>
+                    <div class="explore-input-actions">
+                        <button class="explore-send-btn" id="explore-send-btn" onclick="sendExploreMessage()">
+                            Send
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Quick actions (subtle, below input) -->
+                <div class="explore-quick-actions">
+                    <button class="quick-action-btn" onclick="quickAction('practice')">
+                        <span class="quick-action-label">Start Practice</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="quickAction('mirror')">
+                        <span class="quick-action-label">Mirror</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="quickAction('profile')">
+                        <span class="quick-action-label">Profile</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 2: PRACTICE TYPE SELECTOR -->
+        <div id="screen-practice-type" class="screen">
+            <div class="practice-type-selector">
+                <h2 class="section-title">Choose Practice Type</h2>
+                
+                <div class="type-buttons">
+                    <div class="type-button" onclick="startPredefined()">
+                        <div class="type-button-title">Predefined Scenario</div>
+                        <div class="type-button-desc">Practice common leadership situations quickly</div>
+                        <div class="type-button-time">~30-45 seconds to start</div>
+                    </div>
+                    
+                    <div class="type-button locked-type-button">
+                        <div class="type-button-title">Scenario Builder</div>
+                        <div class="type-button-desc">Practice your actual work situations</div>
+                        <div class="type-button-time">~1-3 minutes to start</div>
+                        <div class="coming-soon-badge">Coming Soon</div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToExplore()">← Back</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 3: PREDEFINED - STEP 1 (Cluster - click to select) -->
+        <div id="screen-predefined-step1" class="screen">
+            <div class="form-container">
+                <div class="step-indicator">
+                    <span class="step-number">STEP 1 of 4</span>
+                </div>
+                
+                <h2 class="section-title">Select Conversation Type</h2>
+                
+                <div class="form-group">
+                    <div class="radio-group">
+                        <div class="radio-option-clean" onclick="selectCluster('directive')">
+                            <div>
+                                <div class="radio-label">Directive</div>
+                                <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">You need to address a specific issue or deliver feedback. You own the message and the outcome depends on clear delivery and their response.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="radio-option-clean" onclick="selectCluster('facilitative')">
+                            <div>
+                                <div class="radio-label">Facilitative</div>
+                                <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">You're exploring, listening, or helping them think through something. They own the content — you create the space and ask the questions.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="radio-option-clean" style="opacity: 0.5; cursor: not-allowed;">
+                            <div>
+                                <div class="radio-label">Receptive 🔒</div>
+                                <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">They have something difficult to tell you. You listen, absorb, and respond constructively without becoming defensive. (Coming soon)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToPracticeType()">← Back</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 4: PREDEFINED - STEP 2 (All themes on one page) -->
+        <div id="screen-predefined-step2" class="screen">
+            <div class="form-container">
+                <div class="step-indicator">
+                    <span class="step-number">STEP 2 of 4</span>
+                </div>
+                
+                <h2 class="section-title">What's the situation?</h2>
+                
+                <div class="form-group" id="predefined-step2-content">
+                    <!-- Will be populated based on cluster selection -->
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="showScreen('screen-predefined-step1')">← Back</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 5: PREDEFINED - STEP 3 (Archetype - visual cards) -->
+        <div id="screen-predefined-step3-archetype" class="screen">
+            <div class="form-container">
+                <div class="step-indicator">
+                    <span class="step-number">STEP 3 of 4</span>
+                </div>
+                
+                <h2 class="section-title">Choose Character</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">Who will you be talking to?</p>
+                
+                <div class="archetype-cards">
+                    <div class="archetype-card" onclick="selectArchetypePredefined('alex')">
+                        <div class="archetype-card-header alex">
+                            <div class="archetype-avatar-header alex-avatar-header">A</div>
+                            <div class="archetype-header-text">
+                                <div class="archetype-name">Alex</div>
+                                <div class="archetype-tagline">The Defensive Performer</div>
+                            </div>
+                        </div>
+                        <div class="archetype-card-body">
+                            <div class="archetype-quote">"If something's wrong, I'll say it, even if it stings"</div>
+                            <div class="archetype-description">Results-driven, quick to challenge fairness, protects competence fiercely. Needs concrete expectations and direct communication.</div>
+                            <div class="archetype-traits">
+                                <div class="trait-bar" title="Directness 75% - Explicit when defending himself, uses sharp tone and clipped language. Forces clarity through confrontation.">
+                                    <span class="trait-label">Directness</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 75%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Pushback Intensity 90% - Highly resistant, challenges framing and fairness aggressively. Defensive interpretation is default mode.">
+                                    <span class="trait-label">Pushback Intensity</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 90%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Ownership Orientation 40% - Partial ownership only. Will accept 'that part's on me' but deflects broader responsibility.">
+                                    <span class="trait-label">Ownership Orientation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 40%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Emotional Regulation 45% - Reactive under pressure, moves between defensive levels, but can stabilize when leadership is clear and fair.">
+                                    <span class="trait-label">Emotional Regulation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 45%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Cooperation 35% - Low. Never warm. Engages through control and self-protection, not genuine collaboration.">
+                                    <span class="trait-label">Cooperation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 35%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="archetype-card" onclick="selectArchetypePredefined('sam')">
+                        <div class="archetype-card-header sam">
+                            <div class="archetype-avatar-header sam-avatar-header">S</div>
+                            <div class="archetype-header-text">
+                                <div class="archetype-name">Sam</div>
+                                <div class="archetype-tagline">The Sensitive Contributor</div>
+                            </div>
+                        </div>
+                        <div class="archetype-card-body">
+                            <div class="archetype-quote">"I just want us to get along and find a solution"</div>
+                            <div class="archetype-description">Warm, harmony-driven, eager to please. Becomes emotionally overwhelmed under pressure. Needs validation and psychological safety.</div>
+                            <div class="archetype-traits">
+                                <div class="trait-bar" title="Directness 20% - Highly indirect. Hedges, softens statements, trails off. Avoids stating needs clearly when anxious.">
+                                    <span class="trait-label">Directness</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 20%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Pushback Intensity 25% - Very low resistance. Withdraws emotionally rather than pushing back. Conflict-averse.">
+                                    <span class="trait-label">Pushback Intensity</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 25%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Ownership Orientation 50% - Medium. Wants to take responsibility but becomes overwhelmed and unsure how to fix things.">
+                                    <span class="trait-label">Ownership Orientation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 50%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Emotional Regulation 15% - Dysregulated. Very high neuroticism, tearful pacing, overwhelmed quickly. Needs active emotional grounding.">
+                                    <span class="trait-label">Emotional Regulation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 15%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Cooperation 90% - Very high. Eager to please, harmony-driven, desperate to maintain good relationships.">
+                                    <span class="trait-label">Cooperation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 90%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="archetype-card" onclick="selectArchetypePredefined('joe')">
+                        <div class="archetype-card-header joe">
+                            <div class="archetype-avatar-header joe-avatar-header">J</div>
+                            <div class="archetype-header-text">
+                                <div class="archetype-name">Joe</div>
+                                <div class="archetype-tagline">The Steady Professional</div>
+                            </div>
+                        </div>
+                        <div class="archetype-card-body">
+                            <div class="archetype-quote">"I try to be reasonable, just treat me fairly"</div>
+                            <div class="archetype-description">Calm, grounded, cooperative when expectations are clear. Values fairness and mutual understanding. Hesitates when things feel vague or unfair.</div>
+                            <div class="archetype-traits">
+                                <div class="trait-bar" title="Directness 65% - Medium-high. Prefers directness and structure. Professional but human, not robotic.">
+                                    <span class="trait-label">Directness</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 65%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Pushback Intensity 40% - Low-medium. Avoids conflict but protects fairness. Will push back when boundaries are crossed.">
+                                    <span class="trait-label">Pushback Intensity</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 40%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Ownership Orientation 75% - High. Cooperative and accountable when expectations are clear. Takes responsibility readily.">
+                                    <span class="trait-label">Ownership Orientation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 75%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Emotional Regulation 70% - High. Calm, steady, grounded. Can show hurt when boundaries crossed, but generally regulated.">
+                                    <span class="trait-label">Emotional Regulation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 70%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Cooperation 80% - High. Cooperative, wants mutual understanding, willing to work together when treated fairly.">
+                                    <span class="trait-label">Cooperation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 80%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LOCKED CHARACTERS -->
+                    <div class="archetype-card locked">
+                        <div class="archetype-card-header locked-header">
+                            <div class="archetype-name">Maya</div>
+                            <div class="archetype-tagline">The Analytical</div>
+                        </div>
+                        <div class="archetype-card-body">
+                            <div class="archetype-avatar locked-avatar">M</div>
+                            <div class="archetype-quote">"Show me the data, then we'll decide"</div>
+                            <div class="locked-overlay">
+                                <span class="lock-icon">🔒</span>
+                                <span class="locked-text">Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="archetype-card locked">
+                        <div class="archetype-card-header locked-header">
+                            <div class="archetype-name">Chris</div>
+                            <div class="archetype-tagline">The Political</div>
+                        </div>
+                        <div class="archetype-card-body">
+                            <div class="archetype-avatar locked-avatar">C</div>
+                            <div class="archetype-quote">"Let me think about who else needs to be involved"</div>
+                            <div class="locked-overlay">
+                                <span class="lock-icon">🔒</span>
+                                <span class="locked-text">Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="archetype-card locked">
+                        <div class="archetype-card-header locked-header">
+                            <div class="archetype-name">Taylor</div>
+                            <div class="archetype-tagline">The Perfectionist</div>
+                        </div>
+                        <div class="archetype-card-body">
+                            <div class="archetype-avatar locked-avatar">T</div>
+                            <div class="archetype-quote">"That's not quite right, let me explain how it should be"</div>
+                            <div class="locked-overlay">
+                                <span class="lock-icon">🔒</span>
+                                <span class="locked-text">Coming Soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="showScreen('screen-predefined-step2')">← Back</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- OLD SCREENS REMOVED: Frequency, Impact, Who -->
+        
+        <!-- SCREEN 7: PROCESSING -->
+        <div id="screen-processing" class="screen">
+            <div class="form-container">
+                <div class="processing-screen">
+                    <div class="spinner"></div>
+                    <p class="processing-text">Generating your scenario...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN: FEEDBACK PROCESSING -->
+        <div id="screen-feedback-processing" class="screen">
+            <div class="form-container">
+                <div class="processing-screen">
+                    <div class="spinner"></div>
+                    <h3 style="color: var(--ink-charcoal); font-size: 20px; font-weight: 600; margin: 32px 0 24px;">Analyzing your conversation...</h3>
+                    <div style="max-width: 600px; margin: 0 auto; background: rgba(46, 92, 138, 0.08); border: 2px solid #2E5C8A; border-radius: 12px; padding: 24px; text-align: left; color: var(--text-secondary); line-height: 1.7; font-size: 15px;">
+                        <p style="margin-bottom: 18px; font-weight: 600; color: #2E5C8A; font-size: 16px;">Our goal in Preppa is that over 80% of leaders become more steady in difficult conversations.</p>
+                        <p style="margin-bottom: 16px; color: var(--ink-charcoal);">There's a reason it's called a difficult conversation. Going straight to a problem rarely feels natural. In fact, 70% of leaders avoid these conversations because the discomfort feels greater than the immediate benefit. By completing this session, you've already done what most people postpone.</p>
+                        <p style="margin-bottom: 0; color: var(--ink-charcoal);">Remember: the goal isn't for the discomfort to disappear—it's for you to become steady within it. Today's session is one step in that direction.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 8: BACKGROUND INFO -->
+        <div id="screen-background-info" class="screen">
+            <div class="form-container">
+                <div class="step-indicator">
+                    <span class="step-number">STEP 4 of 4</span>
+                </div>
+                
+                <h2 class="section-title">Background</h2>
+                
+                <div class="info-card">
+                    <div class="info-card-title">The Situation</div>
+                    <div class="info-card-content" id="background-content">
+                        <!-- Will be populated -->
+                    </div>
+                </div>
+                
+                <div class="info-card" style="margin-top: 20px;">
+                    <div class="info-card-title" id="character-title">About the Character</div>
+                    <div class="info-card-content" id="character-content">
+                        <!-- Will be populated -->
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary btn-full" onclick="showIntro()">Continue to Intro →</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 9: INTRO -->
+        <div id="screen-intro" class="screen">
+            <div class="form-container">
+                <h2 class="section-title" style="margin-bottom: 32px;" id="intro-main-title">Leadership conversation with Alex</h2>
+                
+                <div class="info-card" style="margin-bottom: 24px;">
+                    <div class="info-card-content">
+                        <p style="margin-bottom: 12px;"><strong>This is not a routine check-in.</strong></p>
+                        <p style="margin-bottom: 12px;">You are addressing repeated missed deadlines.</p>
+                        <p style="margin-bottom: 12px;">Your task is to lead the conversation and deal with the issue.</p>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-card-content">
+                        <p style="margin-bottom: 12px;">Lead the conversation as you would in real life.</p>
+                        <p>The conversation ends when you choose to conclude it.</p>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="showScreen('screen-background-info')">← Back</button>
+                    <button class="btn btn-primary btn-full" onclick="startSimulation()">Start Conversation →</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 10: SIMULATION -->
+        <div id="screen-simulation" class="screen">
+            <div class="simulation-mobile">
+                <div class="sim-pulse-container">
+                    <div class="pulse-ring pulse-ring-1"></div>
+                    <div class="pulse-ring pulse-ring-2"></div>
+                    <div class="pulse-ring pulse-ring-3"></div>
+                    <div class="pulse-circle"></div>
+                </div>
+                
+                <div class="sim-status-text">Conversation in progress</div>
+                <div class="sim-counterpart-info" id="sim-counterpart-info">Alex • Direct Report</div>
+                
+                <div class="sim-controls">
+                    <button class="sim-control-btn" onclick="muteSimulation()">
+                        <span class="control-icon">🔇</span>
+                        <span class="control-label">Mute</span>
+                    </button>
+                    <button class="sim-control-btn sim-end-btn" onclick="endSimulation()">
+                        <span class="control-icon">⏹</span>
+                        <span class="control-label">End</span>
+                    </button>
+                    <button class="sim-control-btn" onclick="pauseSimulation()">
+                        <span class="control-icon">⏸</span>
+                        <span class="control-label">Pause</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN 11: FEEDBACK -->
+        <div id="screen-feedback" class="screen">
+            <div class="feedback-container">
+                <h2 class="feedback-title">Session Feedback</h2>
+                
+                <div class="feedback-section feedback-overall">
+                    <div class="feedback-section-title">Overall</div>
+                    <div class="feedback-content">
+                        You set a clear and focused frame by naming the issue early. The conversation stayed anchored on what needed to change, creating momentum toward resolution.
+                    </div>
+                </div>
+                
+                <div class="feedback-section feedback-green">
+                    <div class="feedback-content">
+                        <div class="feedback-element-title">Get to the Point</div>
+                        <p class="feedback-point"><span class="plus-icon">➕</span> You named the issue early and concretely, making the problem specific and actionable from the start.</p>
+                    </div>
+                </div>
+                
+                <div class="feedback-section feedback-orange">
+                    <div class="feedback-content">
+                        <div class="feedback-element-title">Validate & Understand</div>
+                        <p class="feedback-point"><span class="plus-icon">➕</span> You acknowledged Alex's response and kept the conversation moving forward.</p>
+                        <p class="feedback-point feedback-delta">Δ Create more space for Alex to fully explain their perspective before advancing toward solutions.</p>
+                    </div>
+                </div>
+                
+                <div class="feedback-section feedback-green-2">
+                    <div class="feedback-content">
+                        <div class="feedback-element-title">Build Ownership & Commitment</div>
+                        <p class="feedback-point"><span class="plus-icon">➕</span> You guided the conversation toward next steps and expectations, supporting accountability.</p>
+                        <p class="feedback-point feedback-delta">Δ Strengthen ownership by having Alex articulate the commitment in their own words.</p>
+                    </div>
+                </div>
+                
+                <div class="next-time-box">
+                    <div class="next-time-title">Next Time</div>
+                    <p class="feedback-text" style="margin-bottom: 12px;">You're building real capability here. Next session, try pausing after discussing next steps and ask Alex to summarize the agreement in their own words. This small shift will deepen ownership significantly.</p>
+                    <div class="try-saying-box">
+                        <div class="try-saying-label">Try saying:</div>
+                        <div class="try-saying-quote">"Before we wrap up, can you walk me through what you're committing to and by when?"</div>
+                    </div>
+                </div>
+                
+                <div class="return-options">
+                    <button class="btn btn-primary" onclick="goToExplore()">← Return to Explore</button>
+                    <button class="btn btn-secondary" onclick="practiceAgain()">Practice Again</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN: MIRROR -->
+        <div id="screen-mirror" class="screen">
+            <div class="form-container">
+                <h2 class="section-title">Preppa Mirror</h2>
+                
+                <div class="form-group">
+                    <label class="form-label">Relationship</label>
+                    <div class="relationship-boxes">
+                        <div class="relationship-box" onclick="selectMirrorRelationship('direct-report')">
+                            <div class="relationship-box-title">Direct Report</div>
+                        </div>
+                        
+                        <div class="relationship-box" onclick="selectMirrorRelationship('peer')">
+                            <div class="relationship-box-title">Peer</div>
+                        </div>
+                        
+                        <div class="relationship-box locked-box">
+                            <div class="relationship-box-title">Your Manager 🔒</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card" style="margin-top: 24px;">
+                    <div class="info-card-title" style="color: var(--aged-amber);">How Mirror Works</div>
+                    <div class="info-card-content" style="font-size: 15px; line-height: 1.6;">
+                        <p style="margin-bottom: 12px;">• Start recording before your conversation</p>
+                        <p style="margin-bottom: 12px;">• Have your conversation naturally</p>
+                        <p style="margin-bottom: 12px;">• Swipe to finish when done</p>
+                        <p style="margin-bottom: 12px;">• All data is anonymized and impossible to identify</p>
+                        <p>• Receive behavioral feedback after</p>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToExplore()">← Back</button>
+                    <button class="btn btn-locked btn-full" disabled>Start Session (Coming Soon)</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCREEN: PROFILE (DEMO) -->
+        <div id="screen-profile" class="screen">
+            <div class="form-container">
+                <div class="demo-badge">DEMO PREVIEW</div>
+                <h2 class="section-title">Leadership Profile</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 32px; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    A behavioral snapshot of how you actually lead — built from repeated conversation patterns, not self-assessment or opinions.
+                </p>
+                
+                <div class="profile-demo-container">
+                    <div class="profile-section">
+                        <div class="profile-section-label">LEADERSHIP APPROACH</div>
+                        <div class="profile-slider-container">
+                            <div class="profile-slider-labels">
+                                <span>SOFT ON<br>PERFORMANCE</span>
+                                <span style="text-align: right;">TOUGH ON<br>PERFORMANCE</span>
+                            </div>
+                            <div class="profile-slider">
+                                <div class="profile-slider-track"></div>
+                                <div class="profile-slider-position" style="left: 65%;"></div>
+                            </div>
+                            <p style="margin-top: 16px; font-size: 14px; line-height: 1.6; color: var(--text-secondary);">
+                                Leaders with this profile are perceived as <strong>direct and results-oriented</strong> while remaining approachable. They create clarity without intimidation.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <div class="profile-section-label">YOUR STRENGTHS</div>
+                        
+                        <div class="profile-strength-card">
+                            <div class="profile-strength-header">
+                                <span class="profile-strength-title">Communicates Clearly</span>
+                                <span class="profile-reliability-badge">Strongly Reliable</span>
+                            </div>
+                            <div class="profile-strength-bar">
+                                <div class="profile-strength-fill" style="width: 85%;"></div>
+                            </div>
+                            <p style="margin-top: 12px; font-size: 13px; line-height: 1.5; color: var(--text-secondary);">
+                                Messages are concise and structured. Your team knows the point, the facts, and what's expected—without ambiguity or emotional noise.
+                            </p>
+                        </div>
+                        
+                        <div class="profile-strength-card">
+                            <div class="profile-strength-header">
+                                <span class="profile-strength-title">Ensures Accountability & Execution</span>
+                                <span class="profile-reliability-badge profile-reliability-broad">Broadly Reliable</span>
+                            </div>
+                            <div class="profile-strength-bar">
+                                <div class="profile-strength-fill" style="width: 65%;"></div>
+                            </div>
+                            <p style="margin-top: 12px; font-size: 13px; line-height: 1.5; color: var(--text-secondary);">
+                                Agreements become commitments with clear owners and deadlines. Your team knows what's expected and when, with consistent follow-through.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary btn-full" style="margin-top: 32px;" onclick="alert('Full profile would show all behavioral factors, development areas, and historical trends. This is a demo preview.')">
+                    Explore more aspects of your Leadership Profile
+                </button>
+                
+                <div class="button-group" style="margin-top: 16px;">
+                    <button class="btn btn-secondary" onclick="goToExplore()">← Back to Explore</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global state
+        const state = {
+            practiceType: '', // 'predefined' or 'builder'
+            cluster: '',
+            situation: '',
+            theme: '',
+            subtheme: '',
+            frequency: '',
+            whenLastTime: '',
+            impact: '',
+            counterpartName: '',
+            counterpartRelationship: '',
+            archetype: '',
+            messages: [],
+            exploreMessages: []
+        };
+        
+        // Initialize EXPLORE with welcome message
+        window.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('explore-conversation');
+            if (container) {
+                addExploreMessage('assistant', "Hello. What do you want to explore about your leadership today?");
+            }
+        });
+        
+        // EXPLORE conversation functions
+        function addExploreMessage(sender, text) {
+            const container = document.getElementById('explore-conversation');
+            if (!container) return;
+            
+            const msg = document.createElement('div');
+            msg.className = `explore-message ${sender}`;
+            msg.innerHTML = `<div class="explore-message-content">${text}</div>`;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+            
+            state.exploreMessages.push({sender, text});
+        }
+        
+        function sendExploreMessage() {
+            const input = document.getElementById('explore-input');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            // Add user message
+            addExploreMessage('user', text);
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const response = generateExploreResponse(text);
+                addExploreMessage('assistant', response);
+            }, 800);
+        }
+        
+        function generateExploreResponse(userInput) {
+            const lower = userInput.toLowerCase();
+            
+            // Detect intent
+            if (lower.includes('practice') || lower.includes('simulate') || lower.includes('conversation')) {
+                return "I can help you practice that situation. Would you like to use a predefined scenario for quick practice, or would you prefer to build a custom scenario based on your specific situation?";
+            } else if (lower.includes('mirror') || lower.includes('record') || lower.includes('real')) {
+                return "Mirror lets you record and analyze real leadership conversations. You'll get behavioral feedback after the conversation. Would you like to set up a Mirror session?";
+            } else if (lower.includes('profile') || lower.includes('progress')) {
+                return "Your leadership profile shows your behavioral reliability across conversations. It's currently locked and will unlock after you complete at least 10 practice sessions. Would you like to start practicing now?";
+            } else if (lower.includes('difficult') || lower.includes('challenging') || lower.includes('hard')) {
+                return "Difficult conversations are one of the most important leadership skills. Can you tell me more about the situation? What's the issue, and who do you need to talk to?";
+            } else if (lower.includes('1-1') || lower.includes('one on one') || lower.includes('check-in')) {
+                return "Regular 1-1s are key to maintaining strong relationships. Would you like to practice a facilitative conversation where you draw out your team member?";
+            } else {
+                return "I'm here to help you develop your leadership skills through practice and feedback. You can practice difficult conversations, prepare for 1-1 check-ins, record real conversations with Mirror, or track your progress over time. What would be most useful for you right now?";
+            }
+        }
+        
+        // Allow Enter to send (Shift+Enter for new line)
+        setTimeout(() => {
+            const input = document.getElementById('explore-input');
+            if (input) {
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendExploreMessage();
+                    }
+                });
+            }
+        }, 100);
+        
+        // Screen management
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+        
+        // Navigation
+        function goToExplore() {
+            showScreen('screen-explore');
+            resetState();
+        }
+        
+        function showPracticeType() {
+            showScreen('screen-practice-type');
+        }
+        
+        function goToPracticeType() {
+            showScreen('screen-practice-type');
+        }
+        
+        function resetState() {
+            state.practiceType = '';
+            state.cluster = '';
+            state.situation = '';
+            state.theme = '';
+            state.subtheme = '';
+            state.frequency = '';
+            state.whenLastTime = '';
+            state.impact = '';
+            state.counterpartName = '';
+            state.counterpartRelationship = '';
+            state.archetype = '';
+            state.messages = [];
+        }
+        
+        // Quick action buttons
+        function quickAction(action) {
+            if (action === 'practice') {
+                addExploreMessage('user', 'I want to start practice');
+                setTimeout(() => {
+                    addExploreMessage('assistant', 'Great! Would you like to use a predefined scenario or build a custom one?');
+                    setTimeout(() => {
+                        showPracticeType();
+                    }, 1000);
+                }, 500);
+            } else if (action === 'mirror') {
+                addExploreMessage('user', 'I want to use Mirror');
+                setTimeout(() => {
+                    addExploreMessage('assistant', 'Perfect. Let me set up Mirror for you.');
+                    setTimeout(() => {
+                        startMirror();
+                    }, 1000);
+                }, 500);
+            } else if (action === 'profile') {
+                addExploreMessage('user', 'Show me my Profile');
+                setTimeout(() => {
+                    addExploreMessage('assistant', 'Here\'s a preview of your Leadership Profile.');
+                    setTimeout(() => {
+                        showScreen('screen-profile');
+                    }, 1000);
+                }, 500);
+            }
+        }
+        
+        // Practice type selection
+        function startPredefined() {
+            state.practiceType = 'predefined';
+            showScreen('screen-predefined-step1');
+        }
+        
+        function startBuilder() {
+            alert('Scenario Builder flow - Similar structure, but with custom text inputs. Full implementation would follow same pattern.');
+        }
+        
+        // Step 1: Cluster (click to auto-advance)
+        function selectCluster(cluster) {
+            state.cluster = cluster;
+            
+            // Update UI
+            document.querySelectorAll('#screen-predefined-step1 .radio-option-clean').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Auto-advance after short delay for visual feedback
+            setTimeout(() => {
+                predefinedStep2();
+            }, 300);
+        }
+        
+        // Step 2: Themes with sub-themes (no repetition, all on one page)
+        function predefinedStep2() {
+            const content = document.getElementById('predefined-step2-content');
+            
+            if (state.cluster === 'directive') {
+                content.innerHTML = `
+                    <label class="form-label">Type of situation</label>
+                    
+                    <div class="category-container">
+                        <div class="category-header">Performance Issue</div>
+                        <div class="category-options">
+                            <div class="sub-option" onclick="selectThemeSimple('performance-quality')">
+                                <div class="sub-option-title">Quality</div>
+                                <div class="sub-option-desc">Work quality below standard, needs improvement</div>
+                            </div>
+                            
+                            <div class="sub-option" onclick="selectThemeSimple('performance-deadlines')">
+                                <div class="sub-option-title">Missed Deadlines</div>
+                                <div class="sub-option-desc">Consistently late on deliverables</div>
+                            </div>
+                            
+                            <div class="sub-option" onclick="selectThemeSimple('performance-productivity')">
+                                <div class="sub-option-title">Productivity</div>
+                                <div class="sub-option-desc">Output or efficiency concerns</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="category-container">
+                        <div class="category-header">Behavioral Issue</div>
+                        <div class="category-options">
+                            <div class="sub-option" onclick="selectThemeSimple('behavioral-backbiting')">
+                                <div class="sub-option-title">Backbiting</div>
+                                <div class="sub-option-desc">Speaking negatively about colleagues</div>
+                            </div>
+                            
+                            <div class="sub-option" onclick="selectThemeSimple('behavioral-unprofessional')">
+                                <div class="sub-option-title">Unprofessional Conduct</div>
+                                <div class="sub-option-desc">Inappropriate workplace behavior</div>
+                            </div>
+                            
+                            <div class="sub-option" onclick="selectThemeSimple('behavioral-team-dynamics')">
+                                <div class="sub-option-title">Team Dynamics</div>
+                                <div class="sub-option-desc">Conflicts or collaboration problems</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (state.cluster === 'facilitative') {
+                content.innerHTML = `
+                    <label class="form-label">Type of situation</label>
+                    <div class="radio-group">
+                        <div class="radio-option-clean" onclick="selectThemeSimple('1-1-checkin')">
+                            <div>
+                                <div class="radio-label">Regular 1-1 Check-in</div>
+                                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                                    Routine catch-up, career development, team well-being
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showScreen('screen-predefined-step2');
+        }
+        
+        function selectThemeSimple(theme) {
+            state.theme = theme;
+            state.situation = 'predefined-scenario';
+            
+            // Remove selected from both radio-option-clean and sub-option
+            document.querySelectorAll('#screen-predefined-step2 .radio-option-clean, #screen-predefined-step2 .sub-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Auto-advance to archetype (skipping frequency, impact, who)
+            setTimeout(() => {
+                showScreen('screen-predefined-step3-archetype');
+            }, 300);
+        }
+        
+        // Step 3: Archetype (predefined - auto-advance)
+        function selectArchetypePredefined(archetype) {
+            state.archetype = archetype;
+            
+            // Set predefined counterpart name based on archetype
+            if (archetype === 'alex') {
+                state.counterpartName = 'Alex';
+            } else if (archetype === 'sam') {
+                state.counterpartName = 'Sam';
+            } else if (archetype === 'joe') {
+                state.counterpartName = 'Joe';
+            }
+            
+            document.querySelectorAll('#screen-predefined-step3-archetype .radio-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Auto-advance to processing
+            setTimeout(() => {
+                predefinedProcessing();
+            }, 300);
+        }
+        
+        // Step 3: Frequency (REMOVED FOR PREDEFINED)
+        function predefinedStep3Frequency() {
+            if (state.cluster === 'facilitative') {
+                // Skip frequency/impact for facilitative, go straight to Who
+                predefinedStep5Who();
+            } else {
+                showScreen('screen-predefined-step3-frequency');
+            }
+        }
+        
+        function selectFrequency(freq) {
+            state.frequency = freq;
+            
+            document.querySelectorAll('#screen-predefined-step3-frequency .radio-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            validateFrequencyStep();
+        }
+        
+        function validateFrequencyStep() {
+            const whenLastTime = document.getElementById('when-last-time')?.value.trim();
+            document.getElementById('predefined-step3-frequency-next').disabled = !(state.frequency && whenLastTime);
+        }
+        
+        document.getElementById('when-last-time')?.addEventListener('input', () => {
+            state.whenLastTime = document.getElementById('when-last-time').value;
+            validateFrequencyStep();
+        });
+        
+        // Step 4: Impact
+        function predefinedStep4Impact() {
+            showScreen('screen-predefined-step4-impact');
+            validateImpactStep();
+        }
+        
+        function validateImpactStep() {
+            const impact = document.getElementById('impact-text')?.value.trim();
+            const charCount = impact?.length || 0;
+            document.getElementById('impact-char-count').textContent = charCount;
+            document.getElementById('predefined-step4-impact-next').disabled = !impact || charCount < 10;
+        }
+        
+        document.getElementById('impact-text')?.addEventListener('input', () => {
+            state.impact = document.getElementById('impact-text').value;
+            validateImpactStep();
+        });
+        
+        // Step 5: Who
+        function predefinedStep5Who() {
+            showScreen('screen-predefined-step5-who');
+            validateWhoStep();
+        }
+        
+        function quickSelectName(name) {
+            document.getElementById('counterpart-name-new').value = name;
+            state.counterpartName = name;
+            validateWhoStep();
+        }
+        
+        function selectRelationship(rel) {
+            state.counterpartRelationship = rel;
+            
+            document.querySelectorAll('.relationship-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            validateWhoStep();
+        }
+        
+        function validateWhoStep() {
+            const name = document.getElementById('counterpart-name-new')?.value.trim();
+            document.getElementById('predefined-step5-who-next').disabled = !(name && state.counterpartRelationship);
+        }
+        
+        document.getElementById('counterpart-name-new')?.addEventListener('input', () => {
+            state.counterpartName = document.getElementById('counterpart-name-new').value;
+            validateWhoStep();
+        });
+        
+        // Step 6: Archetype
+        function predefinedStep6Archetype() {
+            showScreen('screen-predefined-step6-archetype');
+        }
+        
+        function selectArchetype(archetype) {
+            state.archetype = archetype;
+            
+            document.querySelectorAll('#screen-predefined-step6-archetype .radio-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            document.getElementById('predefined-step6-archetype-next').disabled = false;
+        }
+        
+        // Processing
+        function predefinedProcessing() {
+            showScreen('screen-processing');
+            
+            // Simulate 2 second processing
+            setTimeout(() => {
+                showBackgroundInfo();
+            }, 2000);
+        }
+        
+        function showBackgroundInfo() {
+            const backgroundContent = document.getElementById('background-content');
+            const characterContent = document.getElementById('character-content');
+            const characterTitle = document.getElementById('character-title');
+            
+            // Situation background (performance issue - missed deadlines)
+            backgroundContent.innerHTML = `
+                <p>Over the last two monthly reporting cycles, ${state.counterpartName} missed agreed internal deadlines for delivering inputs to the status and deviation reports. Specifically, deviation summaries and required supporting documentation were submitted after the consolidation cutoffs.</p>
+                <p style="margin-top: 12px;">As a result, the reporting team had to complete consolidation and quality checks under time pressure, with reduced time for review before sign-off. Others had to reprioritise their work late in the process to keep reporting on track, increasing operational risk and reducing confidence in predictable delivery.</p>
+                <p style="margin-top: 12px;">${state.counterpartName} delivers high-quality work, but repeated delays in meeting agreed cutoffs are now creating uncertainty in a reporting chain that depends on timely handovers rather than last-minute recovery.</p>
+            `;
+            
+            // Character-specific info in separate box
+            characterTitle.textContent = `About ${state.counterpartName}`;
+            
+            if (state.archetype === 'alex') {
+                characterContent.innerHTML = `<p>Alex is results-driven and unafraid to challenge others, including leaders, when he sees inefficiency or lack of clarity. He values high standards and can be confrontational, skeptical, or impatient when expectations are unclear.</p>`;
+            } else if (state.archetype === 'sam') {
+                characterContent.innerHTML = `<p>Sam wants to maintain positive relationships and avoid conflict, often prioritizing team harmony over immediate results. He is sensitive to feedback, feels emotions deeply, and can be hesitant or anxious when confronted. He responds best to supportive but clear guidance.</p>`;
+            } else if (state.archetype === 'joe') {
+                characterContent.innerHTML = `<p>Joe is steady, reliable, and follows guidance without causing friction. He completes tasks, communicates reasonably, and values being seen as dependable. He rarely challenges authority but adjusts when prompted.</p>`;
+            }
+            
+            showScreen('screen-background-info');
+        }
+        
+        function showIntro() {
+            document.getElementById('intro-main-title').textContent = `Leadership conversation with ${state.counterpartName}`;
+            
+            showScreen('screen-intro');
+        }
+        
+        // Simulation
+        function startSimulation() {
+            // Set counterpart info
+            const relLabel = state.counterpartRelationship === 'direct-report' ? 'Direct Report' : 
+                           state.counterpartRelationship === 'peer' ? 'Peer' : 
+                           state.counterpartRelationship === 'manager' ? 'Manager' : 'Direct Report';
+            
+            document.getElementById('sim-counterpart-info').textContent = `${state.counterpartName} • ${relLabel}`;
+            
+            showScreen('screen-simulation');
+            
+            // Auto-end after 8 seconds (simulating conversation)
+            setTimeout(() => {
+                endSimulation();
+            }, 8000);
+        }
+        
+        function muteSimulation() {
+            alert('Audio muted');
+        }
+        
+        function pauseSimulation() {
+            alert('Conversation paused');
+        }
+        
+        function endSimulation() {
+            showScreen('screen-processing');
+            setTimeout(() => {
+                showFeedback();
+            }, 2000);
+        }
+        
+        function showFeedback() {
+            // Show processing screen with motivational text
+            showScreen('screen-feedback-processing');
+            
+            // Show actual feedback after 5 seconds
+            setTimeout(() => {
+                showScreen('screen-feedback');
+            }, 5000);
+        }
+        
+        function practiceAgain() {
+            resetState();
+            showScreen('screen-predefined-step1');
+        }
+        
+        // Mirror flow
+        function startMirror() {
+            showScreen('screen-mirror');
+        }
+        
+        function selectMirrorRelationship(relationship) {
+            state.counterpartRelationship = relationship;
+            
+            document.querySelectorAll('.relationship-box').forEach(box => {
+                box.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+        
+        function validateMirror() {
+            const name = document.getElementById('mirror-name')?.value.trim();
+            const relationship = document.getElementById('mirror-relationship')?.value;
+            
+            const btn = document.getElementById('mirror-start');
+            if (btn) {
+                btn.disabled = !(name && relationship);
+            }
+        }
+        
+        document.getElementById('mirror-name')?.addEventListener('input', validateMirror);
+        document.getElementById('mirror-relationship')?.addEventListener('change', validateMirror);
+        
+        function startMirrorRecording() {
+            alert('Mirror recording would start here.');
+        }
+    </script>
+</body>
+</html>
