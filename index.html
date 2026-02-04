@@ -372,6 +372,67 @@
             text-align: center;
         }
         
+        /* CONVERSATION OPTIONS */
+        .conversation-option {
+            background: var(--surface-white);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .conversation-option:hover:not(.locked-option) {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
+            transform: translateY(-2px);
+        }
+        
+        .conversation-option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--ink-charcoal);
+        }
+        
+        .conversation-option-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        .conversation-option-tag {
+            background: var(--aged-amber-ultra-light);
+            color: var(--aged-amber);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .locked-option {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .locked-badge {
+            background: var(--locked-gray);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .secondary-option {
+            border-style: dashed;
+        }
+        
         .type-button:hover {
             border-color: var(--cognac-primary);
             background: var(--cognac-ultra-light);
@@ -598,6 +659,16 @@
             font-size: 13px;
             color: var(--text-secondary);
             line-height: 1.4;
+        }
+        
+        .unidentified-concern-option {
+            border: 2px solid var(--border-color);
+            background: white;
+        }
+        
+        .unidentified-concern-option:hover {
+            border-color: var(--aged-amber);
+            background: var(--aged-amber-ultra-light);
         }
         
         .radio-indicator {
@@ -1491,9 +1562,9 @@
         }
         
         .plus-icon {
-            color: #2E8B57;
-            font-weight: 700;
-            font-size: 1.1em;
+            color: #10B981 !important;
+            font-weight: 800 !important;
+            font-size: 1.3em !important;
         }
         
         .feedback-plus {
@@ -1594,6 +1665,7 @@
             <div class="explore-conversational">
                 <div class="explore-welcome">
                     <h2 class="explore-welcome-title">Explore your leadership</h2>
+                    <p style="color: var(--text-secondary); font-size: 15px; margin-top: 12px; max-width: 500px; margin-left: auto; margin-right: auto;">Explore first. Practice when it helps.</p>
                     <p class="explore-welcome-subtitle">Chat with Preppa to discuss situations, get guidance, or start practicing</p>
                 </div>
                 
@@ -1634,21 +1706,35 @@
         
         <!-- SCREEN 2: PRACTICE TYPE SELECTOR -->
         <div id="screen-practice-type" class="screen">
-            <div class="practice-type-selector">
-                <h2 class="section-title">Choose Practice Type</h2>
+            <div class="form-container">
+                <h2 class="section-title">Choose a conversation to practice</h2>
                 
-                <div class="type-buttons">
-                    <div class="type-button" onclick="startPredefined()">
-                        <div class="type-button-title">Predefined Scenario</div>
-                        <div class="type-button-desc">Practice common leadership situations quickly</div>
-                        <div class="type-button-time">~30-45 seconds to start</div>
+                <!-- SECTION: Common leadership conversations -->
+                <div style="margin-bottom: 32px;">
+                    <div class="conversation-option" onclick="selectConversation('difficult-directive')">
+                        <div class="conversation-option-title">Difficult conversation</div>
+                        <div class="conversation-option-tag">Directive</div>
                     </div>
                     
-                    <div class="type-button locked-type-button">
-                        <div class="type-button-title">Scenario Builder</div>
-                        <div class="type-button-desc">Practice your actual work situations</div>
-                        <div class="type-button-time">~1-3 minutes to start</div>
-                        <div class="coming-soon-badge">Coming Soon</div>
+                    <div class="conversation-option locked-option">
+                        <div class="conversation-option-title">Regular 1–1 check-in</div>
+                        <div class="conversation-option-tag">Facilitating</div>
+                        <div class="locked-badge">Coming Soon</div>
+                    </div>
+                    
+                    <div class="conversation-option locked-option">
+                        <div class="conversation-option-title">Receiving feedback</div>
+                        <div class="locked-badge">Coming Soon</div>
+                    </div>
+                </div>
+                
+                <!-- SECTION: Your own situation -->
+                <div style="margin-bottom: 32px;">
+                    <h3 style="font-size: 14px; font-weight: 600; color: var(--text-tertiary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px;">Your own situation</h3>
+                    <div class="conversation-option secondary-option locked-option">
+                        <div class="conversation-option-title">Practice your next conversation</div>
+                        <div class="conversation-option-subtitle">Build your own scenario</div>
+                        <div class="locked-badge">Coming Soon</div>
                     </div>
                 </div>
                 
@@ -1659,50 +1745,11 @@
         </div>
         
         <!-- SCREEN 3: PREDEFINED - STEP 1 (Cluster - click to select) -->
-        <div id="screen-predefined-step1" class="screen">
-            <div class="form-container">
-                <div class="step-indicator">
-                    <span class="step-number">STEP 1 of 4</span>
-                </div>
-                
-                <h2 class="section-title">Select Conversation Type</h2>
-                
-                <div class="form-group">
-                    <div class="radio-group">
-                        <div class="radio-option-clean" onclick="selectCluster('directive')">
-                            <div>
-                                <div class="radio-label">Directive</div>
-                                <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">You need to address a specific issue or deliver feedback. You own the message and the outcome depends on clear delivery and their response.</div>
-                            </div>
-                        </div>
-                        
-                        <div class="radio-option-clean" onclick="selectCluster('facilitative')">
-                            <div>
-                                <div class="radio-label">Facilitative</div>
-                                <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">You're exploring, listening, or helping them think through something. They own the content — you create the space and ask the questions.</div>
-                            </div>
-                        </div>
-                        
-                        <div class="radio-option-clean" style="opacity: 0.5; cursor: not-allowed;">
-                            <div>
-                                <div class="radio-label">Receptive 🔒</div>
-                                <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">They have something difficult to tell you. You listen, absorb, and respond constructively without becoming defensive. (Coming soon)</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button class="btn btn-secondary" onclick="goToPracticeType()">← Back</button>
-                </div>
-            </div>
-        </div>
-        
         <!-- SCREEN 4: PREDEFINED - STEP 2 (All themes on one page) -->
         <div id="screen-predefined-step2" class="screen">
             <div class="form-container">
                 <div class="step-indicator">
-                    <span class="step-number">STEP 2 of 4</span>
+                    <span class="step-number">STEP 1 of 3</span>
                 </div>
                 
                 <h2 class="section-title">What's the situation?</h2>
@@ -1712,7 +1759,7 @@
                 </div>
                 
                 <div class="button-group">
-                    <button class="btn btn-secondary" onclick="showScreen('screen-predefined-step1')">← Back</button>
+                    <button class="btn btn-secondary" onclick="showScreen('screen-practice-type')">← Back</button>
                 </div>
             </div>
         </div>
@@ -1721,7 +1768,7 @@
         <div id="screen-predefined-step3-archetype" class="screen">
             <div class="form-container">
                 <div class="step-indicator">
-                    <span class="step-number">STEP 3 of 4</span>
+                    <span class="step-number">STEP 2 of 3</span>
                 </div>
                 
                 <h2 class="section-title">Choose Character</h2>
@@ -1740,25 +1787,25 @@
                             <div class="archetype-quote">"If something's wrong, I'll say it, even if it stings"</div>
                             <div class="archetype-description">Results-driven, quick to challenge fairness, protects competence fiercely. Needs concrete expectations and direct communication.</div>
                             <div class="archetype-traits">
-                                <div class="trait-bar" title="Directness 75% - Explicit when defending himself, uses sharp tone and clipped language. Forces clarity through confrontation.">
+                                <div class="trait-bar" title="Directness 85% - Highly explicit and confrontational. Sharp tone, clipped language. Forces clarity aggressively.">
                                     <span class="trait-label">Directness</span>
-                                    <div class="trait-progress"><div class="trait-fill" style="width: 75%"></div></div>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 85%"></div></div>
                                 </div>
                                 <div class="trait-bar" title="Pushback Intensity 90% - Highly resistant, challenges framing and fairness aggressively. Defensive interpretation is default mode.">
                                     <span class="trait-label">Pushback Intensity</span>
                                     <div class="trait-progress"><div class="trait-fill" style="width: 90%"></div></div>
                                 </div>
-                                <div class="trait-bar" title="Ownership Orientation 40% - Partial ownership only. Will accept 'that part's on me' but deflects broader responsibility.">
+                                <div class="trait-bar" title="Ownership Orientation 30% - Minimal ownership. Deflects responsibility, focuses on external factors and others' failures.">
                                     <span class="trait-label">Ownership Orientation</span>
-                                    <div class="trait-progress"><div class="trait-fill" style="width: 40%"></div></div>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 30%"></div></div>
                                 </div>
-                                <div class="trait-bar" title="Emotional Regulation 45% - Reactive under pressure, moves between defensive levels, but can stabilize when leadership is clear and fair.">
+                                <div class="trait-bar" title="Emotional Regulation 35% - Highly reactive. Moves quickly between defensive levels, volatile under pressure.">
                                     <span class="trait-label">Emotional Regulation</span>
-                                    <div class="trait-progress"><div class="trait-fill" style="width: 45%"></div></div>
-                                </div>
-                                <div class="trait-bar" title="Cooperation 35% - Low. Never warm. Engages through control and self-protection, not genuine collaboration.">
-                                    <span class="trait-label">Cooperation</span>
                                     <div class="trait-progress"><div class="trait-fill" style="width: 35%"></div></div>
+                                </div>
+                                <div class="trait-bar" title="Cooperation 25% - Very low. Engages through control and self-protection, actively resists collaboration.">
+                                    <span class="trait-label">Cooperation</span>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 25%"></div></div>
                                 </div>
                             </div>
                         </div>
@@ -1812,21 +1859,21 @@
                             <div class="archetype-quote">"I try to be reasonable, just treat me fairly"</div>
                             <div class="archetype-description">Calm, grounded, cooperative when expectations are clear. Values fairness and mutual understanding. Hesitates when things feel vague or unfair.</div>
                             <div class="archetype-traits">
-                                <div class="trait-bar" title="Directness 65% - Medium-high. Prefers directness and structure. Professional but human, not robotic.">
+                                <div class="trait-bar" title="Directness 55% - Balanced. Professional but warm. Prefers clarity but won't force it aggressively.">
                                     <span class="trait-label">Directness</span>
-                                    <div class="trait-progress"><div class="trait-fill" style="width: 65%"></div></div>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 55%"></div></div>
                                 </div>
                                 <div class="trait-bar" title="Pushback Intensity 40% - Low-medium. Avoids conflict but protects fairness. Will push back when boundaries are crossed.">
                                     <span class="trait-label">Pushback Intensity</span>
                                     <div class="trait-progress"><div class="trait-fill" style="width: 40%"></div></div>
                                 </div>
-                                <div class="trait-bar" title="Ownership Orientation 75% - High. Cooperative and accountable when expectations are clear. Takes responsibility readily.">
+                                <div class="trait-bar" title="Ownership Orientation 80% - Very high. Takes responsibility readily and naturally. Wants to make things right.">
                                     <span class="trait-label">Ownership Orientation</span>
-                                    <div class="trait-progress"><div class="trait-fill" style="width: 75%"></div></div>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 80%"></div></div>
                                 </div>
-                                <div class="trait-bar" title="Emotional Regulation 70% - High. Calm, steady, grounded. Can show hurt when boundaries crossed, but generally regulated.">
+                                <div class="trait-bar" title="Emotional Regulation 75% - Very high. Exceptionally calm and steady. The picture of groundedness.">
                                     <span class="trait-label">Emotional Regulation</span>
-                                    <div class="trait-progress"><div class="trait-fill" style="width: 70%"></div></div>
+                                    <div class="trait-progress"><div class="trait-fill" style="width: 75%"></div></div>
                                 </div>
                                 <div class="trait-bar" title="Cooperation 80% - High. Cooperative, wants mutual understanding, willing to work together when treated fairly.">
                                     <span class="trait-label">Cooperation</span>
@@ -1908,9 +1955,7 @@
                     <div class="spinner"></div>
                     <h3 style="color: var(--ink-charcoal); font-size: 20px; font-weight: 600; margin: 32px 0 24px;">Analyzing your conversation...</h3>
                     <div style="max-width: 600px; margin: 0 auto; background: rgba(46, 92, 138, 0.08); border: 2px solid #2E5C8A; border-radius: 12px; padding: 24px; text-align: left; color: var(--text-secondary); line-height: 1.7; font-size: 15px;">
-                        <p style="margin-bottom: 18px; font-weight: 600; color: #2E5C8A; font-size: 16px;">Our goal in Preppa is that over 80% of leaders become more steady in difficult conversations.</p>
-                        <p style="margin-bottom: 16px; color: var(--ink-charcoal);">There's a reason it's called a difficult conversation. Going straight to a problem rarely feels natural. In fact, 70% of leaders avoid these conversations because the discomfort feels greater than the immediate benefit. By completing this session, you've already done what most people postpone.</p>
-                        <p style="margin-bottom: 0; color: var(--ink-charcoal);">Remember: the goal isn't for the discomfort to disappear—it's for you to become steady within it. Today's session is one step in that direction.</p>
+                        <p style="margin-bottom: 0; font-weight: 600; color: #2E5C8A; font-size: 16px;">This is a difficult kind of conversation. That's why it's worth practicing.</p>
                     </div>
                 </div>
             </div>
@@ -1920,7 +1965,7 @@
         <div id="screen-background-info" class="screen">
             <div class="form-container">
                 <div class="step-indicator">
-                    <span class="step-number">STEP 4 of 4</span>
+                    <span class="step-number">STEP 3 of 3</span>
                 </div>
                 
                 <h2 class="section-title">Background</h2>
@@ -1954,14 +1999,14 @@
                     <div class="info-card-content">
                         <p style="margin-bottom: 12px;"><strong>This is not a routine check-in.</strong></p>
                         <p style="margin-bottom: 12px;">You are addressing repeated missed deadlines.</p>
-                        <p style="margin-bottom: 12px;">Your task is to lead the conversation and deal with the issue.</p>
+                        <p style="margin-bottom: 12px;">This conversation requires clarity and direction.</p>
                     </div>
                 </div>
                 
                 <div class="info-card">
                     <div class="info-card-content">
-                        <p style="margin-bottom: 12px;">Lead the conversation as you would in real life.</p>
-                        <p>The conversation ends when you choose to conclude it.</p>
+                        <p style="margin-bottom: 12px;">Handle the conversation as you would in real life.</p>
+                        <p>You decide when it ends.</p>
                     </div>
                 </div>
                 
@@ -2017,14 +2062,14 @@
                 <div class="feedback-section feedback-green">
                     <div class="feedback-content">
                         <div class="feedback-element-title">Get to the Point</div>
-                        <p class="feedback-point"><span class="plus-icon">➕</span> You named the issue early and concretely, making the problem specific and actionable from the start.</p>
+                        <p class="feedback-point"><span class="plus-icon" style="color: #10B981; font-weight: 800; font-size: 1.3em;">➕</span> You named the issue early and concretely, making the problem specific and actionable from the start.</p>
                     </div>
                 </div>
                 
                 <div class="feedback-section feedback-orange">
                     <div class="feedback-content">
                         <div class="feedback-element-title">Validate & Understand</div>
-                        <p class="feedback-point"><span class="plus-icon">➕</span> You acknowledged Alex's response and kept the conversation moving forward.</p>
+                        <p class="feedback-point"><span class="plus-icon" style="color: #10B981; font-weight: 800; font-size: 1.3em;">➕</span> You acknowledged Alex's response and kept the conversation moving forward.</p>
                         <p class="feedback-point feedback-delta">Δ Create more space for Alex to fully explain their perspective before advancing toward solutions.</p>
                     </div>
                 </div>
@@ -2032,7 +2077,7 @@
                 <div class="feedback-section feedback-green-2">
                     <div class="feedback-content">
                         <div class="feedback-element-title">Build Ownership & Commitment</div>
-                        <p class="feedback-point"><span class="plus-icon">➕</span> You guided the conversation toward next steps and expectations, supporting accountability.</p>
+                        <p class="feedback-point"><span class="plus-icon" style="color: #10B981; font-weight: 800; font-size: 1.3em;">➕</span> You guided the conversation toward next steps and expectations, supporting accountability.</p>
                         <p class="feedback-point feedback-delta">Δ Strengthen ownership by having Alex articulate the commitment in their own words.</p>
                     </div>
                 </div>
@@ -2284,6 +2329,7 @@
             state.counterpartRelationship = '';
             state.archetype = '';
             state.messages = [];
+            state.simulationEnded = false;
         }
         
         // Quick action buttons
@@ -2316,9 +2362,22 @@
         }
         
         // Practice type selection
+        // Conversation selection (replaces practice type selection)
+        function selectConversation(conversationType) {
+            if (conversationType === 'difficult-directive') {
+                state.practiceType = 'predefined';
+                state.cluster = 'directive'; // Set cluster automatically
+                predefinedStep2(); // Populate content
+                showScreen('screen-predefined-step2'); // Show the screen
+            }
+            // Other conversation types will be added here when unlocked
+        }
+        
         function startPredefined() {
+            // This is now called from selectConversation which sets cluster
             state.practiceType = 'predefined';
-            showScreen('screen-predefined-step1');
+            predefinedStep2();
+            showScreen('screen-predefined-step2');
         }
         
         function startBuilder() {
@@ -2326,20 +2385,7 @@
         }
         
         // Step 1: Cluster (click to auto-advance)
-        function selectCluster(cluster) {
-            state.cluster = cluster;
-            
-            // Update UI
-            document.querySelectorAll('#screen-predefined-step1 .radio-option-clean').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            event.currentTarget.classList.add('selected');
-            
-            // Auto-advance after short delay for visual feedback
-            setTimeout(() => {
-                predefinedStep2();
-            }, 300);
-        }
+        // selectCluster function removed - cluster is now set directly in selectConversation
         
         // Step 2: Themes with sub-themes (no repetition, all on one page)
         function predefinedStep2() {
@@ -2362,9 +2408,14 @@
                                 <div class="sub-option-desc">Consistently late on deliverables</div>
                             </div>
                             
-                            <div class="sub-option" onclick="selectThemeSimple('performance-productivity')">
-                                <div class="sub-option-title">Productivity</div>
-                                <div class="sub-option-desc">Output or efficiency concerns</div>
+                            <div class="sub-option locked-option" style="cursor: not-allowed; opacity: 0.6;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div style="flex: 1;">
+                                        <div class="sub-option-title">Productivity</div>
+                                        <div class="sub-option-desc">Output or efficiency concerns</div>
+                                    </div>
+                                    <span style="background: var(--locked-gray); color: white; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; white-space: nowrap; margin-left: 16px;">Coming Soon</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2377,14 +2428,37 @@
                                 <div class="sub-option-desc">Speaking negatively about colleagues</div>
                             </div>
                             
-                            <div class="sub-option" onclick="selectThemeSimple('behavioral-unprofessional')">
-                                <div class="sub-option-title">Unprofessional Conduct</div>
-                                <div class="sub-option-desc">Inappropriate workplace behavior</div>
+                            <div class="sub-option locked-option" style="cursor: not-allowed; opacity: 0.6;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div style="flex: 1;">
+                                        <div class="sub-option-title">Unprofessional Conduct</div>
+                                        <div class="sub-option-desc">Inappropriate workplace behavior</div>
+                                    </div>
+                                    <span style="background: var(--locked-gray); color: white; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; white-space: nowrap; margin-left: 16px;">Coming Soon</span>
+                                </div>
                             </div>
                             
-                            <div class="sub-option" onclick="selectThemeSimple('behavioral-team-dynamics')">
-                                <div class="sub-option-title">Team Dynamics</div>
-                                <div class="sub-option-desc">Conflicts or collaboration problems</div>
+                            <div class="sub-option locked-option" style="cursor: not-allowed; opacity: 0.6;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div style="flex: 1;">
+                                        <div class="sub-option-title">Team Dynamics</div>
+                                        <div class="sub-option-desc">Conflicts or collaboration problems</div>
+                                    </div>
+                                    <span style="background: var(--locked-gray); color: white; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; white-space: nowrap; margin-left: 16px;">Coming Soon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- STANDALONE OPTION: Unidentified concern -->
+                    <div style="margin-top: 32px;">
+                        <div class="sub-option unidentified-concern-option locked-option" style="cursor: not-allowed; opacity: 0.6;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div style="flex: 1;">
+                                    <div class="sub-option-title">Unidentified concern</div>
+                                    <div class="sub-option-desc">Something isn't working — your job is to make it clear.</div>
+                                </div>
+                                <span style="background: var(--locked-gray); color: white; padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; white-space: nowrap; margin-left: 16px;">Coming Soon</span>
                             </div>
                         </div>
                     </div>
@@ -2614,10 +2688,11 @@
         }
         
         function endSimulation() {
-            showScreen('screen-processing');
-            setTimeout(() => {
-                showFeedback();
-            }, 2000);
+            // Prevent multiple calls
+            if (state.simulationEnded) return;
+            state.simulationEnded = true;
+            
+            showFeedback();
         }
         
         function showFeedback() {
@@ -2632,7 +2707,7 @@
         
         function practiceAgain() {
             resetState();
-            showScreen('screen-predefined-step1');
+            showScreen('screen-practice-type');
         }
         
         // Mirror flow
